@@ -21,6 +21,36 @@ public class User_otp {
 	
 	@Column(name = "otp")
 	private String otp;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	@Override
+	public String toString() {
+		return "User_otp [id=" + id + ", mobileNumber=" + mobileNumber + ", otp=" + otp + "]";
+	}
 	
 
+	
 }

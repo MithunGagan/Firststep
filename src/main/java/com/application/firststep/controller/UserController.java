@@ -1,16 +1,16 @@
 package com.application.firststep.controller;
 
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.application.firststep.DTOs.PasswordChangeDto;
-import com.application.firststep.DTOs.UserDto;
-import com.application.firststep.model.User;
+import com.application.firststep.DTOs.*;
+import com.application.firststep.model.*;
 import com.application.firststep.services.AccountService;
 
 @RestController
@@ -20,16 +20,12 @@ public class UserController {
 	private AccountService accountService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<Object> signup(@RequestBody UserDto userDto) {
+	//@Consumes(MediaType.APPLICATION_XML)
+	public ResponseEntity<Object> signup( @RequestBody UserDto userDto) {
 		User savedUser = null;
+		
 		if (userDto == null)
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Please provide required fields",
-					savedUser);
-		if (userDto.getFirstName() == null)
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "First Name cannot be empty",
-					savedUser);
-		if (userDto.getPassword() == null)
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Password cannot be empty",
 					savedUser);
 		if (userDto.getMobileNo() == null )
 			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Mobile Number cannot be empty",
@@ -48,8 +44,8 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody UserDto userDto) {
 
-		if (userDto == null || userDto.getMobileNo() == null || userDto.getPassword() == null) {
-			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Mobile Number or Password cannot be empty",
+		if (userDto == null || userDto.getMobileNo() == null ) {
+			return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Mobile Number cannot be empty",
 					userDto);
 		}
 
@@ -78,6 +74,17 @@ public class UserController {
 		return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "Mobile  Number does not exist",
 				changedPassword);
 
+	}
+	
+	@PostMapping("/profile")
+	public ResponseEntity<Object> profile(@RequestBody UserDto userDto) throws IOException {
+		
+		UserProfile updatedProfile = accountService.saveProfile(userDto);
+		
+		if(updatedProfile != null) {
+			return ResponseHandler.generateResponse(HttpStatus.ACCEPTED, true, "Profile Picture Updated Successfully", updatedProfile);
+		}
+		return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "User does not exits or Improper Image Format", updatedProfile);
 	}
 
 	@GetMapping("/hello")

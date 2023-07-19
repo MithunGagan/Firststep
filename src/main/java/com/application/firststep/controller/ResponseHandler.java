@@ -11,7 +11,6 @@ public class ResponseHandler {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		try {
-
 			map.put("timestamp", new Date());
 			map.put("status", status.value());
 			map.put("isSuccess", error);

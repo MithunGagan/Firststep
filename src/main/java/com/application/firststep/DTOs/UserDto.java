@@ -12,6 +12,7 @@ public class UserDto {
 	private String city;
 	private String college;
 	private String refferalCode;
+	private String image;
 
 	public String getUserName() {
 		return userName;
@@ -93,11 +94,20 @@ public class UserDto {
 		this.refferalCode = refferalCode;
 	}
 
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobileNo=" + mobileNo + ", password=" + password + ", userName=" + userName + ", city=" + city
-				+ ", college=" + college + ", refferalCode=" + refferalCode + "]";
+				+ ", college=" + college + ", refferalCode=" + refferalCode + ", image=" + image + "]";
 	}
 
 
