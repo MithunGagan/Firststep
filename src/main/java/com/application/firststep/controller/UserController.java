@@ -79,13 +79,40 @@ public class UserController {
 	@PostMapping("/profile")
 	public ResponseEntity<Object> profile(@RequestBody UserDto userDto) throws IOException {
 		
-		UserProfile updatedProfile = accountService.saveProfile(userDto);
+		UserProfile savedProfile = accountService.saveProfile(userDto);
+		
+		if(savedProfile != null) {
+			return ResponseHandler.generateResponse
+					(HttpStatus.ACCEPTED, true, "Profile Picture Updated Successfully", savedProfile);
+		}
+		return ResponseHandler.generateResponse
+				(HttpStatus.BAD_REQUEST, false, "User does not exits or Improper Image Format", savedProfile);
+	}
+	
+	
+	@PostMapping("/updateuserprofile")
+	public ResponseEntity<Object> updateUserProfile(@RequestBody UserDto userDto) throws IOException {
+		
+		UserProfile updatedProfile = accountService.updateProfile(userDto);
 		
 		if(updatedProfile != null) {
 			return ResponseHandler.generateResponse(HttpStatus.ACCEPTED, true, "Profile Picture Updated Successfully", updatedProfile);
 		}
 		return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "User does not exits or Improper Image Format", updatedProfile);
 	}
+	
+	
+/*	@PostMapping("/getuserprofile")
+	public ResponseEntity<Object> getUserProfile(@RequestBody UserDto userDto) throws IOException {
+		
+		UserProfile updatedProfile = accountService.updateProfile(userDto);
+		
+		if(updatedProfile != null) {
+			return ResponseHandler.generateResponse(HttpStatus.ACCEPTED, true, "Profile Picture Updated Successfully", updatedProfile);
+		}
+		return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST, false, "User does not exits or Improper Image Format", updatedProfile);
+	}		*/
+	
 
 	@GetMapping("/hello")
 	public String hello() {

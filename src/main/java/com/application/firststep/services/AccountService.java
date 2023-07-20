@@ -13,4 +13,5 @@ public interface AccountService {
 	User changePassword(UserDto userDto);
 	User loginUser(UserDto userDto);
 	UserProfile saveProfile(UserDto userDto) throws FileNotFoundException, IOException;
+	UserProfile updateProfile(UserDto userDto) throws FileNotFoundException, IOException;
 }

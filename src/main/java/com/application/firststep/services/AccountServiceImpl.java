@@ -82,6 +82,27 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public UserProfile saveProfile(UserDto userDto) throws FileNotFoundException, IOException{
 		
+		User user = userRepository.findByUserId(userDto.getId());
+
+		if(user != null) {
+	
+			UserProfile newProfile = new UserProfile();
+			
+			InputStream photo = new FileInputStream(userDto.getImage());
+			photo.close();
+			newProfile.setPhoto(photo.readAllBytes());
+			newProfile.setUser(user);
+			
+			profileRepository.save(newProfile);
+			
+			newProfile.setUser(null);
+			return 	newProfile;
+		}
+		return null;
+	}
+
+	@Override
+	public UserProfile updateProfile(UserDto userDto) throws FileNotFoundException, IOException {
 		User existingUser = userRepository.findByUserId(userDto.getId());
 
 		if(existingUser != null) {
@@ -102,7 +123,12 @@ public class AccountServiceImpl implements AccountService {
 			newProfile.setUser(null);
 			return 	newProfile;
 		}
+		
 		return null;
+		
 	}
+	
+	
+	
 	
 }
